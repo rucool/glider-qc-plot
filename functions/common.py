@@ -26,7 +26,7 @@ def define_instrument_variables(instrument):
 
 
 def flag_defs():
-    flag_definitions = dict(unknown=dict(value=2, color='cyan'),
+    flag_definitions = dict(not_evaluated=dict(value=2, color='cyan'),
                             suspect=dict(value=3, color='orange'),
                             fail=dict(value=4, color='red'))
     return flag_definitions

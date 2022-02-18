@@ -55,7 +55,7 @@ def main(ncf, sdir, nprof, inst_list):
 
     varlist = flatten(varlist)
 
-    flag_defs = dict(unknown=dict(value=2, color='cyan'),
+    flag_defs = dict(not_evaluated=dict(value=2, color='cyan'),
                      suspect=dict(value=3, color='orange'),
                      fail=dict(value=4, color='red'))
 

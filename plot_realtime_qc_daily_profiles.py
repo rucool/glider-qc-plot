@@ -2,7 +2,7 @@
 
 """
 Author: Lori Garzio on 2/4/2022
-Last modified: 2/16/2022
+Last modified: 2/24/2022
 Plot realtime glider science profiles from yesterday, values flagged by QC variables are highlighted. Plots CTD and
 dissolved oxygen variables (if available).
 """
@@ -80,7 +80,7 @@ def main(args):
         flag_defs = cf.flag_defs()
 
         for ps_idx, ps in enumerate(plot_sections):
-            if ps == num_profiles:
+            if np.logical_and(ps == num_profiles, len(plot_sections) > 2):
                 continue
             if ps_idx > 0:
                 if ps_idx == 1:
@@ -98,7 +98,10 @@ def main(args):
                 t1save = pd.to_datetime(np.nanmax(dss.profile_time.values)).strftime('%Y%m%dT%H%M')
                 for cv in var_list:
                     save_filename = f'{cv}_qc_{t0save}-{t1save}.png'
-                    data = dss[cv]
+                    try:
+                        data = dss[cv]
+                    except KeyError:
+                        continue
                     pressure = dss.pressure
                     fig, ax = plt.subplots(figsize=(8, 10))
 

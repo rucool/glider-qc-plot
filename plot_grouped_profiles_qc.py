@@ -86,16 +86,17 @@ def main(ncf, sdir, nprof, inst_list):
                 data[data > 10000] = np.nan
 
                 pressure = dss.pressure
+                pressure_interp = cf.interpolate_pressure(pressure)
                 fig, ax = plt.subplots(figsize=(8, 10))
 
                 # iterate through each profile and plot the profile lines
                 for pt in ptimes:
                     pt_idx = np.where(dss.profile_time.values == pt)[0]
-                    non_nans = np.where(np.invert(np.isnan(pressure[pt_idx])))[0]
-                    ax.plot(data[pt_idx][non_nans], pressure[pt_idx][non_nans], color='gray')  # plot lines
+                    non_nans = np.where(np.invert(np.isnan(data[pt_idx])))[0]
+                    ax.plot(data[pt_idx][non_nans], pressure_interp[pt_idx][non_nans], color='gray')  # plot lines
 
                 # add points
-                ax.scatter(data, pressure, color='gray', s=20, zorder=5)
+                ax.scatter(data, pressure_interp, color='gray', s=20, zorder=5)
 
                 # find the qc variables
                 qc_vars = [x for x in ds.data_vars if f'{cv}_' in x]
@@ -112,7 +113,7 @@ def main(ncf, sdir, nprof, inst_list):
                         qc_idx = np.where(flag_vals == info['value'])[0]
                         if len(qc_idx) > 0:
                             m_defs = define_markers(qv)
-                            ax.scatter(data[qc_idx], pressure[qc_idx], color=info['color'], s=m_defs['s'],
+                            ax.scatter(data[qc_idx], pressure_interp[qc_idx], color=info['color'], s=m_defs['s'],
                                        marker=m_defs['m'], edgecolor='k', alpha=m_defs['alpha'],
                                        label=f'{qv}-{fd}', zorder=10)
 

@@ -61,6 +61,7 @@ def main(ncf, sdir, inst_list, dr):
     t0save = pd.to_datetime(np.nanmin(ds.time.values)).strftime('%Y%m%dT%H%M')
     t1save = pd.to_datetime(np.nanmax(ds.time.values)).strftime('%Y%m%dT%H%M')
     depth = ds.depth
+    depth_interp = cf.interpolate_pressure(depth, varname='depth')
 
     savedir = os.path.join(sdir, deploy, fname, 'xsection_before_after_qc')
     os.makedirs(savedir, exist_ok=True)
@@ -85,7 +86,7 @@ def main(ncf, sdir, inst_list, dr):
         data_count = int(np.sum(~np.isnan(data)))
 
         # plot data without QC applied
-        plot_xsection(fig, ax1, ds.time, depth, data, cmaps[cv], 'without QC')
+        plot_xsection(fig, ax1, ds.time, depth_interp, data, cmaps[cv], 'without QC')
 
         # find the qc summary variables and hysteresis test
         qc_vars = [x for x in ds.data_vars if f'{cv}_qartod_summary_flag' in x]
@@ -104,7 +105,7 @@ def main(ncf, sdir, inst_list, dr):
                 qc_count += len(qc_idx)
 
         percent = np.round(qc_count / data_count * 100)
-        plot_xsection(fig, ax2, ds.time, depth, data, cmaps[cv], f'with QC (removed {qc_count} ({int(percent)}%) data points)')
+        plot_xsection(fig, ax2, ds.time, depth_interp, data, cmaps[cv], f'with QC (removed {qc_count} ({int(percent)}%) data points)')
 
         ax1.invert_yaxis()
         ttl = f'Before and After QC: {deploy}'

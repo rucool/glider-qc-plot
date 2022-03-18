@@ -98,8 +98,14 @@ def main(ncf, sdir, nprof):
 
                     ax1.set_xlabel(f'{data.name} ({units})')
                     ax2.set_xlabel(f'{data_shifted.name} ({units})')
+
+                    opt_shift = pd.unique(dss[f'{sv.split("_shifted")[0]}_optimal_shift'].values).tolist()
+                    for i, x in enumerate(opt_shift):
+                        if ~np.isnan(x):
+                            opt_shift[i] = int(x)
+
                     ax1.set_title('No shift')
-                    ax2.set_title('Shifted')
+                    ax2.set_title(f'Shifted: {opt_shift} seconds')
                     ttl = f'{deploy} {t0str} to {t1str}'
                     fig.suptitle(ttl)
 

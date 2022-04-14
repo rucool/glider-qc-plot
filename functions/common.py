@@ -25,7 +25,7 @@ def colormaps():
 
 
 def define_instrument_variables(instrument):
-    variables = dict(ctd=['conductivity', 'temperature', 'salinity', 'density'],
+    variables = dict(ctd=['conductivity', 'temperature', 'salinity', 'density', 'pressure'],
                      do=['oxygen_concentration', 'oxygen_saturation']
                      )
     return variables[instrument]

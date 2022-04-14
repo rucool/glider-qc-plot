@@ -23,6 +23,7 @@ def define_markers(qc_varname):
                    gross_range=dict(m='D', s=40, alpha=1),
                    rate_of_change=dict(m='X', s=80, alpha=1),
                    spike=dict(m='*', s=100, alpha=1),
+                   pressure=dict(m='s', s=40, alpha=1),
                    summary=dict(m='o', s=100, alpha=.2)
                    )
     mkey = [key for key in markers.keys() if key in qc_varname][0]
